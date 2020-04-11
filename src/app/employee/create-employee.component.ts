@@ -15,13 +15,36 @@ export class CreateEmployeeComponent implements OnInit {
     this.employeeForm = new FormGroup({
 
       fullName: new FormControl(),
-      email: new FormControl()
+      email: new FormControl(),
+
+      skills: new FormGroup({
+
+        skillName: new FormControl(),
+        experienceInYears: new FormControl(),
+        proficiency: new FormControl()
+
+      })
 
     });
   }
 
   onSubmit(): void {
     console.log(this.employeeForm.value)
+  }
+
+  onLoadDataClick(): void {
+
+    this.employeeForm.patchValue({
+
+      fullName: 'Nishchal jain',
+      email: 'nishchaljain786@gmail.com',
+      skills: {
+        skillName: 'C#',
+        experienceInYears: 7,
+        proficiency: 'beginner'
+      }
+
+    });
   }
 
 }
