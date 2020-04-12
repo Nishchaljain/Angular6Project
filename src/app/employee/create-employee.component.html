@@ -73,7 +73,7 @@
                         Skill
                     </label>
                     <div class="col-sm-4" [ngClass]="{'has-error': formErrors.skillName}">
-                        <input type="text" class="form-control" id="skillName" placeholder="Name"
+                        <input type="text" class="form-control" id="skillName" placeholder="C#, Java, Angular, etc"
                             (blur)="logValidationErrors()" formControlName="skillName">
                         <span class="help-block" *ngIf="formErrors.skillName">
                             {{formErrors.skillName}}
@@ -115,7 +115,7 @@
         <div class="panel-footer">
             <div class="btn-toolbar">
                 <button class="btn btn-primary" type="submit">Save</button>
-                <button class="btn btn-primary" type="button">Load Data</button>
+                <button class="btn btn-primary" type="button" (click)="onLoadDataClick()">Load Data</button>
             </div>
         </div>
     </div>
