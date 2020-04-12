@@ -72,13 +72,12 @@ export class CreateEmployeeComponent implements OnInit {
       }, { validator: matchEmail }),
 
       phone: [''],
-      skills: this.fb.group({
-
-        skillName: ['', Validators.required],
-        experienceInYears: ['', Validators.required],
-        proficiency: ['', Validators.required]
-      })
+      skills: this.fb.array([
+        this.addSkillsFormGroup()
+      ])
     });
+
+
 
     this.employeeForm.get('contactPreference').valueChanges.subscribe((value: string) => {
       this.onContactPreferenceChange(value);
@@ -87,6 +86,21 @@ export class CreateEmployeeComponent implements OnInit {
     this.employeeForm.valueChanges.subscribe((data) => {
       this.logValidationErrors(this.employeeForm);
     })
+
+  }
+
+  addSkillButtonClick(): void {
+    (<FormArray>this.employeeForm.get('skills')).push(this.addSkillsFormGroup());
+  }
+
+  addSkillsFormGroup(): FormGroup {
+
+    return this.fb.group({
+
+      skillName: ['', Validators.required],
+      experienceInYears: ['', Validators.required],
+      proficiency: ['', Validators.required]
+    });
 
   }
 
@@ -126,6 +140,8 @@ export class CreateEmployeeComponent implements OnInit {
 
   }
 
+
+
   logValidationErrors(group: FormGroup = this.employeeForm): void {
     Object.keys(group.controls).forEach((control: string) => {
       const abstractControl = group.get(control);
@@ -145,9 +161,20 @@ export class CreateEmployeeComponent implements OnInit {
         this.logValidationErrors(abstractControl);
       }
 
+      if (abstractControl instanceof FormArray) {
+        for (const control of abstractControl.controls) {
+          if (control instanceof FormGroup) {
+            this.logValidationErrors(control);
+          }
+        }
+
+      }
+
     })
   }
 }
+
+
 
 function matchEmail(group: AbstractControl): { [key: string]: any } | null {
   const email = group.get('email');
