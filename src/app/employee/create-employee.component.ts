@@ -21,6 +21,9 @@ export class CreateEmployeeComponent implements OnInit {
     'email': {
       'required': 'Email is required.'
     },
+    'phone': {
+      'required': 'Phone is required.'
+    },
     'skillName': {
       'required': 'Skill Name is required.',
     },
@@ -38,6 +41,7 @@ export class CreateEmployeeComponent implements OnInit {
   formErrors = {
     'fullName': '',
     'email': '',
+    'phone': '',
     'skillName': '',
     'experienceInYears': '',
     'proficiency': ''
@@ -50,7 +54,9 @@ export class CreateEmployeeComponent implements OnInit {
     this.employeeForm = this.fb.group({
 
       fullName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(10)]],
+      contactPreference: ['email'],
       email: ['', Validators.required],
+      phone: [''],
       skills: this.fb.group({
 
         skillName: ['', Validators.required],
@@ -63,6 +69,17 @@ export class CreateEmployeeComponent implements OnInit {
       this.logValidationErrors(this.employeeForm);
     })
 
+  }
+
+  onContactPreferenceChnage(selectedValue: string) {
+    const phoneControl = this.employeeForm.get('phone');
+    if (selectedValue === 'phone') {
+      phoneControl.setValidators(Validators.required);
+    }
+    else {
+      phoneControl.clearValidators();
+    }
+    phoneControl.updateValueAndValidity();
   }
 
   onSubmit(): void {
