@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'app-create-employee',
@@ -19,7 +19,8 @@ export class CreateEmployeeComponent implements OnInit {
       'maxlength': 'Full Name must be less than 10 characters.'
     },
     'email': {
-      'required': 'Email is required.'
+      'required': 'Email is required.',
+      'emailDomain': 'Email domain should be pragimtech.com.'
     },
     'phone': {
       'required': 'Phone is required.'
@@ -55,7 +56,7 @@ export class CreateEmployeeComponent implements OnInit {
 
       fullName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(10)]],
       contactPreference: ['email'],
-      email: ['', Validators.required],
+      email: ['', [Validators.required, emailDomainValidator]],
       phone: [''],
       skills: this.fb.group({
 
@@ -65,13 +66,17 @@ export class CreateEmployeeComponent implements OnInit {
       })
     });
 
+    this.employeeForm.get('contactPreference').valueChanges.subscribe((value: string) => {
+      this.onContactPreferenceChange(value);
+    })
+
     this.employeeForm.valueChanges.subscribe((data) => {
       this.logValidationErrors(this.employeeForm);
     })
 
   }
 
-  onContactPreferenceChnage(selectedValue: string) {
+  onContactPreferenceChange(selectedValue: string) {
     const phoneControl = this.employeeForm.get('phone');
     if (selectedValue === 'phone') {
       phoneControl.setValidators(Validators.required);
@@ -109,10 +114,18 @@ export class CreateEmployeeComponent implements OnInit {
     })
   }
 
-  onLoadDataClick(): void {
 
-    // this.logValidationErrors(this.employeeForm);
-    // console.log(this.formErrors);
+
+}
+
+function emailDomainValidator(control: AbstractControl): { [key: string]: any } | null {
+
+  const email: string = control.value;
+  const domain = email.substring(email.lastIndexOf('@') + 1);
+  if (email === '' || domain.toLowerCase() === 'pragimtech.com') {
+    return null;
   }
-
+  else {
+    return { ['emailDomain']: true };
+  }
 }
