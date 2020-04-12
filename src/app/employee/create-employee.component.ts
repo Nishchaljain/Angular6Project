@@ -20,7 +20,7 @@ export class CreateEmployeeComponent implements OnInit {
     },
     'email': {
       'required': 'Email is required.',
-      'emailDomain': 'Email domain should be pragimtech.com.'
+      'emailDomain': 'Email domain should be dell.com'
     },
     'phone': {
       'required': 'Phone is required.'
@@ -56,7 +56,7 @@ export class CreateEmployeeComponent implements OnInit {
 
       fullName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(10)]],
       contactPreference: ['email'],
-      email: ['', [Validators.required, emailDomainValidator]],
+      email: ['', [Validators.required, emailDomainValidator('dell.com')]],
       phone: [''],
       skills: this.fb.group({
 
@@ -118,14 +118,16 @@ export class CreateEmployeeComponent implements OnInit {
 
 }
 
-function emailDomainValidator(control: AbstractControl): { [key: string]: any } | null {
+function emailDomainValidator(domainName: string) {
+  return (control: AbstractControl): { [key: string]: any } | null => {
 
-  const email: string = control.value;
-  const domain = email.substring(email.lastIndexOf('@') + 1);
-  if (email === '' || domain.toLowerCase() === 'pragimtech.com') {
-    return null;
-  }
-  else {
-    return { ['emailDomain']: true };
-  }
+    const email: string = control.value;
+    const domain = email.substring(email.lastIndexOf('@') + 1);
+    if (email === '' || domain.toLowerCase() === domainName) {
+      return null;
+    }
+    else {
+      return { ['emailDomain']: true };
+    }
+  };
 }
