@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
-
+import { CustomValidators } from '../shared/custom.validator';
 @Component({
   selector: 'app-create-employee',
   templateUrl: './create-employee.component.html',
@@ -56,7 +56,7 @@ export class CreateEmployeeComponent implements OnInit {
 
       fullName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(10)]],
       contactPreference: ['email'],
-      email: ['', [Validators.required, emailDomainValidator('dell.com')]],
+      email: ['', [Validators.required, CustomValidators.emailDomainValidator('dell.com')]],
       phone: [''],
       skills: this.fb.group({
 
@@ -113,21 +113,5 @@ export class CreateEmployeeComponent implements OnInit {
       }
     })
   }
-
-
-
 }
 
-function emailDomainValidator(domainName: string) {
-  return (control: AbstractControl): { [key: string]: any } | null => {
-
-    const email: string = control.value;
-    const domain = email.substring(email.lastIndexOf('@') + 1);
-    if (email === '' || domain.toLowerCase() === domainName) {
-      return null;
-    }
-    else {
-      return { ['emailDomain']: true };
-    }
-  };
-}
