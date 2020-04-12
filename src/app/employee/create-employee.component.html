@@ -29,14 +29,28 @@
                 </div>
             </div>
 
-            <div class="form-group" [ngClass]="{'has-error': formErrors.email}">
-                <label class="col-sm-2 control-label" for="email">Email</label>
-                <div class="col-sm-8">
-                    <input type="text" id="email" formControlName="email" class="form-control"
-                        (blur)="logValidationErrors()">
-                    <span class="help-block" *ngIf="formErrors.email">
-                        {{formErrors.email}}
-                    </span>
+            <div class="well">
+                <div formGroupName="emailGroup">
+                    <div class="form-group" [ngClass]="{'has-error': formErrors.email}">
+                        <label class="col-sm-2 control-label" for="email">Email</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="email" formControlName="email" class="form-control"
+                                (blur)="logValidationErrors()">
+                            <span class="help-block" *ngIf="formErrors.email">
+                                {{formErrors.email}}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-error': formErrors.confirmEmail || formErrors.emailGroup}">
+                        <label class="col-sm-2 control-label" for="confirmEmail">Confirm Email</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="confirmEmail" formControlName="confirmEmail" class="form-control"
+                                (blur)="logValidationErrors()">
+                            <span class="help-block" *ngIf="formErrors.confirmEmail || formErrors.emailGroup">
+                                {{formErrors.confirmEmail ? formErrors.confirmEmail  : formErrors.emailGroup}}
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="form-group" [ngClass]="{'has-error': formErrors.phone}">
