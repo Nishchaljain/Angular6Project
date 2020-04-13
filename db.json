@@ -4,22 +4,22 @@
       "id": 1,
       "fullName": "Nishchal",
       "contactPreference": "email",
-      "email": "nishchaljain786@gmail.com",
+      "email": "nishchaljain786@dell.com",
       "phone": "9820515123",
       "skills": [
         {
           "skillName": "C#",
           "experienceInYears": "7",
-          "proficiency": "Intermediate"
+          "proficiency": "intermediate"
         },
         {
           "skillName": ".Net",
           "experienceInYears": "7",
-          "proficiency": "Intermediate"
+          "proficiency": "intermediate"
         },
         {
           "skillName": "Angular",
-          "experienceInYears": "6 Months",
+          "experienceInYears": "2 Months",
           "proficiency": "beginner"
         }
       ]
@@ -28,17 +28,31 @@
       "id": 2,
       "fullName": "Divya",
       "contactPreference": "email",
-      "email": "jaindivya417@gmail.com",
+      "email": "jaindivya417@dell.com",
       "phone": "8652293132",
       "skills": [
         {
           "skillName": "Java",
           "experienceInYears": "4",
-          "proficiency": "Intermediate"
+          "proficiency": "intermediate"
         },
         {
           "skillName": "C#",
           "experienceInYears": "3",
+          "proficiency": "beginner"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "fullName": "Samriddhi",
+      "contactPreference": "phone",
+      "email": "sam@dell.com",
+      "phone": "9820515123",
+      "skills": [
+        {
+          "skillName": "Angular",
+          "experienceInYears": "1",
           "proficiency": "beginner"
         }
       ]

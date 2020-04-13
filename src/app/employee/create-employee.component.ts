@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl, FormControl, FormArray } from '@angular/forms';
 import { CustomValidators } from '../shared/custom.validator';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeService } from './employee.service';
 import { IEmployee } from './iemployee';
 import { ISkill } from './iskill';
@@ -13,6 +13,8 @@ import { ISkill } from './iskill';
 export class CreateEmployeeComponent implements OnInit {
 
   employeeForm: FormGroup;
+  employee: IEmployee;
+  pageTitle: string;
 
   // This object contains all the validation messages for this form
 
@@ -53,7 +55,8 @@ export class CreateEmployeeComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private _activatedRoute: ActivatedRoute,
-    private _employeeService: EmployeeService) { }
+    private _employeeService: EmployeeService,
+    private _route: Router) { }
 
   ngOnInit(): void {
     this.employeeForm = this.fb.group({
@@ -84,7 +87,20 @@ export class CreateEmployeeComponent implements OnInit {
     const employeeID = +this._activatedRoute.snapshot.params['id'];
 
     if (employeeID) {
+      this.pageTitle = 'Edit Employee';
       this.getEmployeeByID(employeeID);
+    }
+    else {
+      this.pageTitle = 'Create Employee';
+      this.employee = {
+        id: null,
+        fullName: '',
+        contactPreference: '',
+        email: '',
+        phone: null,
+        skills: []
+
+      };
     }
 
   }
@@ -93,6 +109,7 @@ export class CreateEmployeeComponent implements OnInit {
     this._employeeService.getEmployeeById(employeeID).subscribe(
       (employee: IEmployee) => {
         this.editEmployee(employee);
+        this.employee = employee;
       },
       (error: any) => {
         console.log(error);
@@ -109,10 +126,30 @@ export class CreateEmployeeComponent implements OnInit {
       },
       phone: employee.phone
     });
+
+    this.employeeForm.setControl('skills', this.setExistingSkills(employee.skills));
+  }
+
+  setExistingSkills(skillSets: ISkill[]): FormArray {
+
+    const formArray = new FormArray([]);
+
+    skillSets.forEach(s => {
+      formArray.push(this.fb.group({
+        skillName: s.skillName,
+        experienceInYears: s.experienceInYears,
+        proficiency: s.proficiency
+      }));
+    })
+
+    return formArray;
   }
 
   removeSkillButtonClick(index: number): void {
-    (<FormArray>this.employeeForm.get('skills')).removeAt(index);
+    const skillFormGroup = <FormArray>this.employeeForm.get('skills');
+    skillFormGroup.removeAt(index);
+    skillFormGroup.markAsDirty();
+    skillFormGroup.markAsTouched();
   }
 
   addSkillButtonClick(): void {
@@ -142,27 +179,37 @@ export class CreateEmployeeComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log(this.employeeForm.value)
+    this.mapFormValuesToEmployeeModel();
+    if (this.employee.id) {
+      this._employeeService.updateEmployee(this.employee).subscribe(
+        () => {
+          this._route.navigate(['list'])
+        },
+        (error: any) => {
+          console.log(error);
+        });
+    }
+    else {
+      this._employeeService.insertEmployee(this.employee).subscribe(
+        () => {
+          this._route.navigate(['list'])
+        },
+        (error: any) => {
+          console.log(error);
+        });
+    }
+
+  }
+
+  mapFormValuesToEmployeeModel() {
+    this.employee.fullName = this.employeeForm.value.fullName;
+    this.employee.contactPreference = this.employeeForm.value.contactPreference;
+    this.employee.email = this.employeeForm.value.emailGroup.email;
+    this.employee.phone = this.employeeForm.value.phone;
+    this.employee.skills = this.employeeForm.value.skills;
   }
 
   onLoadDataClick() {
-
-    const formArray1 = this.fb.array([
-      new FormControl('Nish', Validators.required),
-      new FormControl('IT', Validators.required),
-      new FormControl('', Validators.required),
-    ]);
-
-    const formGroup = this.fb.group([
-      new FormControl('Nish', Validators.required),
-      new FormControl('IT', Validators.required),
-      new FormControl('', Validators.required),
-    ]);
-
-    console.log(formArray1);
-    console.log(formGroup);
-
-
 
   }
 
