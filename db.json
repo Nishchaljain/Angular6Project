@@ -1,0 +1,47 @@
+{
+  "employees": [
+    {
+      "id": 1,
+      "fullName": "Nishchal",
+      "contactPreference": "email",
+      "email": "nishchaljain786@gmail.com",
+      "phone": "9820515123",
+      "skills": [
+        {
+          "skillName": "C#",
+          "experienceInYears": "7",
+          "proficiency": "Intermediate"
+        },
+        {
+          "skillName": ".Net",
+          "experienceInYears": "7",
+          "proficiency": "Intermediate"
+        },
+        {
+          "skillName": "Angular",
+          "experienceInYears": "6 Months",
+          "proficiency": "beginner"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "fullName": "Divya",
+      "contactPreference": "email",
+      "email": "jaindivya417@gmail.com",
+      "phone": "8652293132",
+      "skills": [
+        {
+          "skillName": "Java",
+          "experienceInYears": "4",
+          "proficiency": "Intermediate"
+        },
+        {
+          "skillName": "C#",
+          "experienceInYears": "3",
+          "proficiency": "beginner"
+        }
+      ]
+    }
+  ]
+}
