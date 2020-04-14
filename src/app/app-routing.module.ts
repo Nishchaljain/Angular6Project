@@ -4,6 +4,7 @@ import { HomeComponent } from './home.component';
 import { PagenotfoundComponent } from './pagenotfound.component';
 
 
+
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
