@@ -183,7 +183,7 @@ export class CreateEmployeeComponent implements OnInit {
     if (this.employee.id) {
       this._employeeService.updateEmployee(this.employee).subscribe(
         () => {
-          this._route.navigate(['list'])
+          this._route.navigate(['employees'])
         },
         (error: any) => {
           console.log(error);
@@ -192,7 +192,7 @@ export class CreateEmployeeComponent implements OnInit {
     else {
       this._employeeService.insertEmployee(this.employee).subscribe(
         () => {
-          this._route.navigate(['list'])
+          this._route.navigate(['employees'])
         },
         (error: any) => {
           console.log(error);

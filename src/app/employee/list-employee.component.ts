@@ -25,7 +25,7 @@ export class ListEmployeeComponent implements OnInit {
   }
 
   onEditClick(empID: number) {
-    this._router.navigate(['/edit', empID])
+    this._router.navigate(['/employees/edit', empID])
   }
 
 }
